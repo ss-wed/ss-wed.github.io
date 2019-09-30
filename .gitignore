@@ -1,4 +1,3 @@
-backend/__pycache__/DBAccess.cpython-36.pyc
-backend/__pycache__/library.cpython-36.pyc
-backend/__pycache__/SMTPAccess.cpython-36.pyc
 backend/img/*
+.vscode/settings.json
+backend/__pycache__/*

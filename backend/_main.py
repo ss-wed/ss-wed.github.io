@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from flask import Flask, request, abort, jsonify
+from flask_cors import CORS
 import sys,os,io
 import cv2
 import base64
@@ -66,6 +67,13 @@ def register():
         print("error:", e)
         return jsonify({'result': False})
 
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
+
 
 def test(request):
     if request.method == 'OPTIONS':
@@ -78,14 +86,9 @@ def test(request):
     elif request.method != 'GET':
         return 'only GET'
 
-    data = request.json
-
-    # メール送信機能は一旦コメントアウト
-    # mail = SMTPAccess()
-    # mail.sendSMTPMessage(data)
 
 
-    res = jsonify({'result': True})
+    res = jsonify({'aaa': 'bbb'})
     res.headers.set('Access-Control-Allow-Origin', '*')
 
     return res
