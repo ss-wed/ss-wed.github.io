@@ -1,3 +1,4 @@
 backend/img/*
 .vscode/settings.json
 backend/__pycache__/*
+backend/gcpkey/wedding-system-244912-579ef9035123.json

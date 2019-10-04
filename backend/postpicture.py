@@ -1,24 +1,23 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-from flask import Blueprint, request, abort
-import sys,os,io
-from linebot import LineBotApi, WebhookHandler
-from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageMessage
-from PIL import Image
+import io
+import os
 from datetime import datetime
 
-photo_api = Blueprint('photo_api', __name__)
+from flask import abort, request
+from google.cloud import storage
+from linebot import LineBotApi, WebhookHandler
+from linebot.exceptions import InvalidSignatureError
+from linebot.models import (ImageMessage, MessageEvent, TextMessage,
+                            TextSendMessage)
+from PIL import Image
 
-#環境変数取得
-YOUR_CHANNEL_ACCESS_TOKEN = 'X7n1cRq34rnf74uJAHR84dliYknmqhHoG9ixNw+rUcVrp/VxjqnAORa/QN1y0p2C3AYKilmh7kQIwaKLksIRlrIgpfIxGOkuI+eYKHWvFq4PF9dHgnmUh09vO6mxjBQsJG5xN1Y29wTNHEYDkbwHSwdB04t89/1O/w1cDnyilFU='
-YOUR_CHANNEL_SECRET = '4acb784e7729a2fa24b9a9adaa07f9d3'
 
-line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
-handler = WebhookHandler(YOUR_CHANNEL_SECRET)
+line_bot_api = LineBotApi(os.environ['CHANNEL_ACCESS_TOKEN'])
+handler = WebhookHandler(os.environ['CHANNEL_SECRET'])
 
-@photo_api.route("/", methods=['POST'])
-def callback():
+bucket = storage.Client().get_bucket('wedding-system-upload')
+
+
+def post_picture(request):
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
 
@@ -58,13 +57,12 @@ def handle_image(event):
         img_bin = io.BytesIO(message_content.content)
         img = Image.open(img_bin)
 
-        # 保存先パス
+        # cloud storageに保存
         img_name = datetime.utcnow().strftime("%m%d%H%M%S%f") + '.jpg'
-        if not os.path.exists('./img'):
-            os.mkdir('./img')
-
-        # 画像を保存
-        img.save('img/'+img_name,"JPEG")
+        img_path = f"/tmp/{img_name}"
+        img.save(img_path, "JPEG")     # 一旦ローカルに画像を保存
+        blob = bucket.blob(img_name)
+        blob.upload_from_filename(img_path)
 
         messages = [
             TextSendMessage(text='画像を保存したよ！'),

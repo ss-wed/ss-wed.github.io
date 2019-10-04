@@ -1,4 +1,4 @@
-# wedding-system
+# wedding
 
 ## 開発用フロントエンドサーバー起動
 

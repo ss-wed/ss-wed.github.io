@@ -304,7 +304,7 @@ Vue.component('form-inputer', {
       vm.dialog2 = true
 
       axios
-        .post('/api/register', {
+        .post('https://us-central1-wedding-system-244912.cloudfunctions.net/register ', {
           attendance: vm.attend,
           name: `${vm.name_sei} ${vm.name_mei}`,
           name_kana: `${vm.name_kana_sei} ${vm.name_kana_mei}`,
