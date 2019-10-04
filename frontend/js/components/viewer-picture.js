@@ -1,5 +1,4 @@
 Vue.use(VueLazyload, {
-  loading: '/static/resources/loading.gif', // ロード中に表示する画像指定
   attempt: 1 // ロード失敗した時のリトライの上限指定
 });
 
@@ -8,7 +7,7 @@ Vue.component('viewer-picture', {
     <v-layout wrap>
       <v-flex xs4 md2 v-for="i in iamge_length" :key="i" style="height: 100px;">
         <a>
-          <img v-lazy="images[i-1]" style="width: 100%; height: 100%; object-fit: cover;" @click="on_img_select"></img>
+          <img class="pa-1" v-lazy="images[i-1]" style="width: 100%; height: 100%; object-fit: cover;" @click="on_img_select"></img>
         </a>
       </v-flex>
 
@@ -34,7 +33,7 @@ Vue.component('viewer-picture', {
 
     // 画像名一覧を取得後、一枚ずつ画像取得
     axios
-      .post('/api/search-img')
+      .post('https://asia-east2-wedding-system-244912.cloudfunctions.net/get_all_picture_names')
       .then(response => {
         vm.iamge_length = response.data['result_list'].length
         vm.images = Array(vm.iamge_length)
@@ -42,7 +41,7 @@ Vue.component('viewer-picture', {
 
         response.data['result_list'].forEach(imgname => {
           axios
-            .post('/api/get-img', {img_name: imgname})
+            .post('https://asia-east2-wedding-system-244912.cloudfunctions.net/get_picture', {img_name: imgname})
             .then(response => {
               vm.images[vm.loaded_index] = "data:image/jpg;base64," + response.data['image']
               vm.images.splice()
