@@ -7,7 +7,7 @@ Vue.component('viewer-picture', {
     <v-layout wrap>
       <v-flex xs4 md2 v-for="i in iamge_length" :key="i" style="height: 100px;">
         <a>
-          <img class="pa-1" v-lazy="images[i-1]" style="width: 100%; height: 100%; object-fit: cover;" @click="on_img_select"></img>
+          <img v-lazy="images[i-1]" style="width:100%; height:100%; object-fit:cover; padding:1px;" @click="on_img_select"></img>
         </a>
       </v-flex>
 
