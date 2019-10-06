@@ -52,7 +52,7 @@ Vue.component('top-access', {
     </v-layout>
 
     <v-layout justify-center :style="style_info">
-      <a href="/templates/form.html">登録フォーム</a>
+      <a href="/wedding/frontend/templates/form.html">登録フォーム</a>
     </v-layout>
 
   </v-container>
