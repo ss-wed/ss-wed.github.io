@@ -20,7 +20,7 @@ Vue.component('viewer-picture', {
 
       <div :style="style_overlay" v-if="showing">
         <img :src="showing_img" :style="style_image" ref="img" id="img"></img>
-        <v-btn icon @click="showing=false" :style="style_xbtn">
+        <v-btn icon @click="on_img_unselect" :style="style_xbtn">
           <v-icon :style="style_icon">close</v-icon>
         </v-btn>
       </div>
@@ -34,6 +34,7 @@ Vue.component('viewer-picture', {
       loaded_index: 0,
       showing: false,
       showing_img: '',
+      current_y: '',
       style_overlay: {
         position: 'fixed',
         top: 0,
@@ -96,8 +97,17 @@ Vue.component('viewer-picture', {
       return src
     },
     on_img_select: function (e) {
+      this.current_y = document.documentElement.scrollTop
+      document.body.style.position = 'fixed'
+      document.body.style.top = (-1 * this.current_y) + 'px'
+
       this.showing_img = e.target.currentSrc
       this.showing = true
+    },
+    on_img_unselect: function (e) {
+      this.showing = false
+      document.body.style.position = ''
+      document.documentElement.scrollTop = this.current_y
     }
   }
 })
