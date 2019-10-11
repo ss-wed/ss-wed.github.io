@@ -18,12 +18,14 @@ Vue.component('viewer-picture', {
         </v-layout>
       </v-container>
 
-      <div :style="style_overlay" v-if="showing">
-        <img :src="showing_img" :style="style_image" ref="img" id="img"></img>
-        <v-btn icon @click="on_img_unselect" :style="style_xbtn">
-          <v-icon :style="style_icon">close</v-icon>
-        </v-btn>
-      </div>
+      <transition name="fade">
+        <div :style="style_overlay" v-if="showing">
+          <img :src="showing_img" :style="style_image" ref="img" id="img"></img>
+          <v-btn icon @click="on_img_unselect" :style="style_xbtn">
+            <v-icon :style="style_icon">close</v-icon>
+          </v-btn>
+        </div>
+      </transition>
 
     </span>
   `,
