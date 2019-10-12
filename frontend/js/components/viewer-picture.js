@@ -9,7 +9,7 @@ Vue.component('viewer-picture', {
       <transition name="fade">
         <v-dialog v-model="loading" hide-overlay persistent width="300">
           <v-card color="teal" dark>
-            <v-card-text>
+            <v-card-text style="font-family: Cinzel">
               loading...
               <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
             </v-card-text>
