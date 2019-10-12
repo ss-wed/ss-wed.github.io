@@ -6,6 +6,17 @@ Vue.component('viewer-picture', {
   template: `
     <span>
 
+      <transition name="fade">
+        <v-dialog v-model="loading" hide-overlay persistent width="300">
+          <v-card color="teal" dark>
+            <v-card-text>
+              loading...
+              <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+      </transition>
+
       <v-container>
         <v-layout wrap>
 
@@ -31,6 +42,7 @@ Vue.component('viewer-picture', {
   `,
   data: function () {
     return {
+      loading: true,
       images: [],
       iamge_length: 0,
       loaded_index: 0,
@@ -82,6 +94,8 @@ Vue.component('viewer-picture', {
               vm.images[vm.loaded_index] = "data:image/jpg;base64," + response.data['image']
               vm.images.splice()
               vm.loaded_index++
+
+              this.loading = false
             })
             .catch(error => {
               console.log(error)
