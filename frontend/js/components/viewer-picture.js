@@ -45,7 +45,6 @@ Vue.component('viewer-picture', {
       loading: true,
       images: [],
       iamge_length: 0,
-      loaded_index: 0,
       showing: false,
       showing_img: '',
       current_y: '',
@@ -87,13 +86,12 @@ Vue.component('viewer-picture', {
         vm.images = Array(vm.iamge_length)
         vm.images.fill('')
 
-        response.data['result_list'].forEach(imgname => {
+        response.data['result_list'].reverse().forEach((imgname, i) => {
           axios
             .post('https://asia-east2-wedding-system-244912.cloudfunctions.net/get_picture', {img_name: imgname})
             .then(response => {
-              vm.images[vm.loaded_index] = "data:image/jpg;base64," + response.data['image']
+              vm.images[i] = "data:image/jpg;base64," + response.data['image']
               vm.images.splice()
-              vm.loaded_index++
 
               this.loading = false
             })
