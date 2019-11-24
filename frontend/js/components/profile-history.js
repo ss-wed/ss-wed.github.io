@@ -13,7 +13,7 @@ Vue.component('profile-history', {
             <v-timeline-item>
               <template v-slot:icon>
                 <v-avatar>
-                  <img src="../resources/timeline_shota.png">
+                  <img src="../resources/timeline_shota.jpg">
                 </v-avatar>
               </template>
               <v-card flat>
@@ -27,7 +27,7 @@ Vue.component('profile-history', {
             <v-timeline-item>
               <template v-slot:icon>
                 <v-avatar>
-                  <img src="../resources/timeline_saya.png">
+                  <img src="../resources/timeline_saya.jpg">
                 </v-avatar>
               </template>
               <v-card flat>
@@ -41,7 +41,7 @@ Vue.component('profile-history', {
             <v-timeline-item>
               <template v-slot:icon>
                 <v-avatar>
-                  <img src="../resources/timeline_ikesaya.png">
+                  <img src="../resources/timeline_ikesaya.jpg">
                 </v-avatar>
               </template>
               <template v-slot:opposite>
@@ -63,7 +63,7 @@ Vue.component('profile-history', {
             <v-timeline-item>
               <template v-slot:icon>
                 <v-avatar>
-                  <img src="../resources/timeline_ikesaya.png">
+                  <img src="../resources/timeline_ikesaya.jpg">
                 </v-avatar>
               </template>
               <template v-slot:opposite>
@@ -85,7 +85,7 @@ Vue.component('profile-history', {
             <v-timeline-item>
               <template v-slot:icon>
                 <v-avatar>
-                  <img src="../resources/timeline_shota.png">
+                  <img src="../resources/timeline_shota.jpg">
                 </v-avatar>
               </template>
               <v-card flat>
@@ -99,7 +99,7 @@ Vue.component('profile-history', {
             <v-timeline-item>
               <template v-slot:icon>
                 <v-avatar>
-                  <img src="../resources/timeline_ikesaya.png">
+                  <img src="../resources/timeline_ikesaya.jpg">
                 </v-avatar>
               </template>
               <template v-slot:opposite>
@@ -121,7 +121,7 @@ Vue.component('profile-history', {
             <v-timeline-item>
               <template v-slot:icon>
                 <v-avatar>
-                  <img src="../resources/timeline_ikesaya.png">
+                  <img src="../resources/timeline_ikesaya.jpg">
                 </v-avatar>
               </template>
               <template v-slot:opposite>
@@ -153,9 +153,9 @@ Vue.component('profile-history', {
       birth_saya: '1991.9.17',
       birth_saya_text: '愛知県名古屋市で生まれる',
       pci_ike: '2016.4.1',
-      pci_ike_text: 'PCIソリューションズ 入社 & 菱川紗也子と出会う',
+      pci_ike_text: '菱川紗也子と出会う',
       pci_saya: '2016.4.1',
-      pci_saya_text: 'PCIソリューションズ 入社 & 池田将汰と出会う',
+      pci_saya_text: '池田将汰と出会う',
       dated_ike: '2016.6.25',
       dated_ike_text: '付き合う',
       dated_saya: '2016.6.25',

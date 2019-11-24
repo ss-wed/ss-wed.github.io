@@ -2,7 +2,7 @@ Vue.component('count-down', {
   template: `
     <div>
       <v-container text-xs-center>
-        <v-parallax src="./frontend/resources/image3.jpg" :height="get_height">
+        <v-parallax src="./frontend/resources/image4-2.jpg" :height="get_height">
           <v-layout align-center justify-center column fill-height>
             <span class="countdown">Countdown</span>
             <span class="countdown-theday">{{ the_date_string }}</span>

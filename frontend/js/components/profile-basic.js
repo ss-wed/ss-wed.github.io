@@ -8,7 +8,7 @@ Vue.component('profile-basic', {
       <v-layout wrap justify-space-between>
 
         <v-flex xs12 sm5>
-          <v-img class="white--text" src="../resources/profile_shota.png" aspect-ratio="1"
+          <v-img class="white--text" src="../resources/profile_shota.jpg" aspect-ratio="1"
             :style="style_prof_img" gradient="to top right, rgba(0,0,0,0.5), rgba(0,0,0,0.5)">
             <table :style="style_prof_table">
               <caption :style=style_prof_name>{{ name_ike }}</caption>
@@ -50,7 +50,7 @@ Vue.component('profile-basic', {
         </v-flex>
 
         <v-flex xs12 sm5>
-          <v-img class="white--text" src="../resources/profile_saya.png" aspect-ratio="1"
+          <v-img class="white--text" src="../resources/profile_saya.jpg" aspect-ratio="1"
           :style="style_prof_img" gradient="to top right, rgba(0,0,0,0.5), rgba(0,0,0,0.5)">
             <table :style="style_prof_table">
               <caption :style=style_prof_name>{{ name_saya }}</caption>

@@ -9,9 +9,9 @@ Vue.component('profile-interview', {
       <v-layout justify-center>
 
         <v-flex xs12>
-          <v-parallax class="white--text" src="../resources/profile_interview.png" height="600">
+          <v-img class="white--text" src="../resources/profile_interview.jpg" height="600">
 
-          <v-card flat style="opacity: 0.5" class="mt-1">
+          <v-card flat style="opacity: 0.7" class="mt-1">
             <v-card-title :style="style_q">
               {{ label_q1 }}
             </v-card-title>
@@ -22,7 +22,7 @@ Vue.component('profile-interview', {
             </v-card-text>
           </v-card>
 
-          <v-card flat style="opacity: 0.5" class="mt-1">
+          <v-card flat style="opacity: 0.7" class="mt-1">
             <v-card-title :style="style_q">
               {{ label_q2 }}
             </v-card-title>
@@ -33,7 +33,7 @@ Vue.component('profile-interview', {
             </v-card-text>
           </v-card>
 
-          <v-card flat style="opacity: 0.5" class="mt-1">
+          <v-card flat style="opacity: 0.7" class="mt-1">
             <v-card-title :style="style_q">
               {{ label_q3 }}
             </v-card-title>
@@ -44,7 +44,7 @@ Vue.component('profile-interview', {
             </v-card-text>
           </v-card>
 
-          <v-card flat style="opacity: 0.5" class="mt-1">
+          <v-card flat style="opacity: 0.7" class="mt-1">
             <v-card-title :style="style_q">
               {{ label_q4 }}
             </v-card-title>
@@ -55,7 +55,7 @@ Vue.component('profile-interview', {
             </v-card-text>
           </v-card>
 
-          <v-card flat style="opacity: 0.5" class="mt-1">
+          <v-card flat style="opacity: 0.7" class="mt-1">
             <v-card-title :style="style_q">
               {{ label_q5 }}
             </v-card-title>
@@ -66,7 +66,7 @@ Vue.component('profile-interview', {
             </v-card-text>
           </v-card>
 
-          </v-parallax>
+          </v-img>
         </v-flex>
 
       </v-layout>
