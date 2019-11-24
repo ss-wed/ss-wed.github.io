@@ -3,7 +3,7 @@ Vue.component('top-image', {
     <div>
       <v-container style="margin:15px auto auto auto">
         <transition name="fade">
-          <v-img :src="image_src" v-if="data.is_showing" style="display: flex; align-items: center; justify-content: center;">
+          <v-img :src="image_src" v-show="data.is_showing" style="display: flex; align-items: center; justify-content: center;">
             <div style="text-align: center;">
               <span class="ourwedding">Welcome<br>OurWedding</span>
             </div>
