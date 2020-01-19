@@ -59,7 +59,7 @@ Vue.component('form-inputer', {
         </v-layout>
 
         <v-layout>
-          <v-flex xs6>
+          <v-flex xs12>
             <v-checkbox v-model="checkbox" label="招待状の住所と同じ"></v-checkbox>
           </v-flex>
         </v-layout>
