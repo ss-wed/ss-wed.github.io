@@ -38,7 +38,7 @@ Vue.component('top-access', {
     <v-layout justify-center class="mt-4" v-if="is_pc" style="text-align: center">
       <p :style="style_info">
         追伸　ご多用中恐縮に存じますが挙式にもご列席賜りたく<br>
-        当日午後2時までにお越しくださいますようお願い申し上げます
+        当日午後2時15分までにお越しくださいますようお願い申し上げます
       </p>
     </v-layout>
 
@@ -46,7 +46,7 @@ Vue.component('top-access', {
       <p :style="style_info">
         追伸　ご多用中恐縮に存じますが<br>
         挙式にもご列席賜りたく<br>
-        当日午後2時までにお越しくださいますよう<br>
+        当日午後2時15分までにお越しくださいますよう<br>
         お願い申し上げます
       </p>
     </v-layout>

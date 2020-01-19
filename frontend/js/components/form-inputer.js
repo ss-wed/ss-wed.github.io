@@ -60,21 +60,27 @@ Vue.component('form-inputer', {
 
         <v-layout>
           <v-flex xs6>
+            <v-checkbox v-model="checkbox" label="招待状の住所と同じ"></v-checkbox>
+          </v-flex>
+        </v-layout>
+
+        <v-layout>
+          <v-flex xs6>
             <v-text-field v-model="postcode" counter maxlength="7"  label="郵便番号" placeholder="1234567"
-              :rules="[rules.required, rules.postcode]" @change="on_input_postcode" type="number">
+              :rules="[rules.postcode]" @change="on_input_postcode" type="number" :disabled=checkbox>
             </v-text-field>
           </v-flex>
         </v-layout>
 
         <v-layout>
           <v-flex xs12>
-            <v-text-field label="住所" v-model="address" :rules="[rules.required]"></v-text-field>
+            <v-text-field label="住所" v-model="address" :disabled=checkbox></v-text-field>
           </v-flex>
         </v-layout>
 
         <v-layout>
           <v-flex xs6>
-            <v-text-field label="建物名" v-model="building"></v-text-field>
+            <v-text-field label="建物名" v-model="building" :disabled=checkbox></v-text-field>
           </v-flex>
         </v-layout>
 
@@ -98,7 +104,7 @@ Vue.component('form-inputer', {
 
         <v-layout>
           <v-flex xs12>
-            <v-textarea v-model="message" placeholder="おめでとう！" label="メッセージ" rows="2"></v-textarea>
+            <v-textarea v-model="message" label="メッセージ" rows="2"></v-textarea>
           </v-flex>
         </v-layout>
 
@@ -198,7 +204,7 @@ Vue.component('form-inputer', {
   data: function () {
     return {
       valid: true,
-      topmessage: ['誠にお手数ながら', '○月○日までにご登録くださいますよう', 'お願いいたします。'],
+      topmessage: ['誠に勝手ながら', '４月１日までにご登録くださいますよう', 'お願いいたします。'],
       attend: null,
       label_attend: '出席',
       label_absent: '欠席',
@@ -222,7 +228,7 @@ Vue.component('form-inputer', {
       rules: {
         required: value => !!value || '必須',
         postcode: value => {
-          const pattern = /^[0-9]{7}$/
+          const pattern = /^([0-9]{7})?$/
           return pattern.test(value) || '不正な郵便番号'
         },
         email: value => {
@@ -254,7 +260,8 @@ Vue.component('form-inputer', {
       style_dialog: {
         fontFamily: ['Noto Serif JP'],
         textAlign: 'center'
-      }
+      },
+      checkbox: false
     }
   },
   methods: {
