@@ -1,11 +1,10 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-from flask import request, jsonify
 import smtplib
+import base64
+import ssl
 from email.mime.text import MIMEText
 from email.utils import formatdate
-from SMTPAccess import SMTPAccess
 from google.cloud import firestore
+from flask import request, jsonify
 
 
 class SMTPAccess():
@@ -18,7 +17,7 @@ class SMTPAccess():
     def sendSMTPMessage(self, data):
         # gmailアカウント
         MAIL_ADDRESS = 'wedding.siakyea@gmail.com'
-        PASSWORD = "sakura385"
+        PASSWORD = "lcazigiuibvyuxig"
         SYSTEM_ADDRESS = 'sakura-nanovn-385@docomo.ne.jp'
 
         # MIMEメッセージ作成
@@ -34,14 +33,14 @@ class SMTPAccess():
                     "※当メールはシステムより自動配信されております。当アドレスにご連絡いただいてもご返信できませんので予めご了承ください。\n\n" + \
                     "今後ともよろしくお願い申し上げます。\n\n" + \
                     "■□■───────────────────\n" + \
+                    "池田将汰・菱川紗也子\n" + \
+                    "連絡先：sakura-nanovn-385@docomo.ne.jp\n" + \
+                    "LINEID(将汰)：lt0223sv\n" + \
+                    "LINEID(紗也子)：saya3917\n" + \
                     "──────────────────────\n\n"
-                    # "池田将汰・菱川紗也子\n" + \
-                    # "連絡先：sakura-nanovn-385@docomo.ne.jp\n" + \
-                    # "LINEID(将汰)：lt0223sv\n" + \
-                    # "LINEID(紗也子)：saya3917\n" + \
         msg = MIMEText(main_text)
         # msg = MIMEText(main_text, "plain", "utf-8")
-        msg.replace_header("Content-Transfer-Encoding", "")
+        msg.replace_header("Content-Transfer-Encoding", "base64")
         msg["Subject"] = "出欠登録を受け付けました"
         msg["From"] = MAIL_ADDRESS
         msg["To"] = data['mail_address']
@@ -57,7 +56,7 @@ class SMTPAccess():
                     "アドレス：" + data['mail_address'] + " \n" + \
                     "出欠　　：" + ("出席" if data['attendance'] else "欠席") + " \n\n"
         conf_msg = MIMEText(conf_text)
-        conf_msg.replace_header("Content-Transfer-Encoding", "")
+        conf_msg.replace_header("Content-Transfer-Encoding", "base64")
         conf_msg["Subject"] = "出欠登録を受け付けました"
         conf_msg["From"] = MAIL_ADDRESS
         conf_msg["To"] = SYSTEM_ADDRESS
@@ -93,8 +92,8 @@ def register(request):
     data = request.get_json()
 
     # メール送信機能は一旦コメントアウト
-    # mail = SMTPAccess()
-    # mail.sendSMTPMessage(data)
+    mail = SMTPAccess()
+    mail.sendSMTPMessage(data)
 
     # DB登録
     db = firestore.Client()
@@ -119,4 +118,3 @@ def register(request):
     res.headers.set('Access-Control-Allow-Origin', '*')
 
     return res
-
