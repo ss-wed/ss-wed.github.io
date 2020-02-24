@@ -116,8 +116,8 @@ Vue.component('profile-basic', {
       hobby_saya: 'ショッピング',
       hobby2_saya: 'ハムスターをめでる',
       label_color: 'Favorite Color',
-      color_ike: 'ティール',
-      color_saya: 'パステルカラー',
+      color_ike: 'グリーン',
+      color_saya: 'ピンク',
       style_prop_title: {
         fontSize: '1.5em',
         color: '#444444',

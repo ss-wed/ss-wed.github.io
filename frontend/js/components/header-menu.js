@@ -20,10 +20,6 @@ Vue.component('header-menu', {
           <v-icon color="teal">photo</v-icon>
         </v-btn>
 
-        <v-btn icon @click="on_click_linkbutton('/frontend/templates/movie.html')">
-          <v-icon color="teal">movie</v-icon>
-        </v-btn>
-
       </v-toolbar>
 
       <div sytle="height: 60px;"></div>

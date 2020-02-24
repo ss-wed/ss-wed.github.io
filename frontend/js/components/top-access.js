@@ -17,6 +17,7 @@ Vue.component('top-access', {
       <v-flex xs1></v-flex>
       <v-flex xs10 md6>
         <p>5月10日（日曜日）</p>
+        <p>受付 午後1時45分</p>
         <p>挙式 午後2時30分</p>
         <p>披露宴 午後3時30分</p>
       </v-flex>

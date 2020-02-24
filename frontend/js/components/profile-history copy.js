@@ -13,8 +13,44 @@ Vue.component('profile-history', {
             <v-timeline-item>
               <template v-slot:icon>
                 <v-avatar>
+                  <img src="../resources/timeline_shota.jpg">
+                </v-avatar>
+              </template>
+              <v-card flat>
+                <v-card-text style="text-align: right;">
+                  <span class="grey--text">{{ birth_ike }}</span><br>
+                  {{ birth_ike_text }}
+                </v-card-text>
+              </v-card>
+            </v-timeline-item>
+
+            <v-timeline-item>
+              <template v-slot:icon>
+                <v-avatar>
+                  <img src="../resources/timeline_saya.jpg">
+                </v-avatar>
+              </template>
+              <v-card flat>
+                <v-card-text>
+                  <span class="grey--text">{{ birth_saya }}</span><br>
+                  {{ birth_saya_text }}
+                </v-card-text>
+              </v-card>
+            </v-timeline-item>
+
+            <v-timeline-item>
+              <template v-slot:icon>
+                <v-avatar>
                   <img src="../resources/timeline_ikesaya.jpg">
                 </v-avatar>
+              </template>
+              <template v-slot:opposite>
+                <v-card flat>
+                  <v-card-text>
+                    <span class="grey--text">{{ pci_saya }}</span><br>
+                    {{ pci_saya_text }}
+                  </v-card-text>
+                </v-card>
               </template>
               <v-card flat>
                 <v-card-text style="text-align: right;">
@@ -30,10 +66,18 @@ Vue.component('profile-history', {
                   <img src="../resources/timeline_ikesaya.jpg">
                 </v-avatar>
               </template>
+              <template v-slot:opposite>
+                <v-card flat>
+                  <v-card-text style="text-align: right;">
+                    <span class="grey--text">{{ dated_ike }}</span><br>
+                    {{ dated_ike_text }}
+                  </v-card-text>
+                </v-card>
+              </template>
               <v-card flat>
                 <v-card-text>
-                  <span class="grey--text">{{ dated_ike }}</span><br>
-                  {{ dated_ike_text }}
+                  <span class="grey--text">{{ dated_saya }}</span><br>
+                  {{ dated_saya_text }}
                 </v-card-text>
               </v-card>
             </v-timeline-item>
@@ -41,53 +85,15 @@ Vue.component('profile-history', {
             <v-timeline-item>
               <template v-slot:icon>
                 <v-avatar>
-                  <img src="../resources/timeline_ikesaya.jpg">
+                  <img src="../resources/timeline_shota.jpg">
                 </v-avatar>
               </template>
               <v-card flat>
                 <v-card-text style="text-align: right;">
-                  <span class="grey--text">{{ decide_ike }}</span><br>
-                  {{ decide_ike_text }}
+                  <span class="grey--text">{{ propose_ike }}</span><br>
+                  {{ propose_ike_text }}
                 </v-card-text>
               </v-card>
-            </v-timeline-item>
-
-            <v-timeline-item>
-              <template v-slot:icon>
-                <v-avatar>
-                  <img src="../resources/timeline_ikesaya.jpg">
-                </v-avatar>
-              </template>
-              <template v-slot:opposite>
-                <v-card flat>
-                  <v-card-text>
-                    <span class="grey--text">{{ propose_ike }}</span><br>
-                    {{ propose_ike_text }}
-                  </v-card-text>
-                </v-card>
-              </template>
-              <v-card flat>
-                <v-card-text>
-                  <span class="grey--text">{{ propose_saya }}</span><br>
-                  {{ propose_saya_text }}
-                </v-card-text>
-              </v-card>
-            </v-timeline-item>
-
-            <v-timeline-item>
-              <template v-slot:icon>
-                <v-avatar>
-                  <img src="../resources/timeline_ikesaya.jpg">
-                </v-avatar>
-              </template>
-              <template v-slot:opposite>
-                <v-card flat>
-                  <v-card-text>
-                    <span class="grey--text">{{ married_ike }}</span><br>
-                    {{ married_ike_text }}
-                  </v-card-text>
-                </v-card>
-              </template>
             </v-timeline-item>
 
             <v-timeline-item>
@@ -99,15 +105,37 @@ Vue.component('profile-history', {
               <template v-slot:opposite>
                 <v-card flat>
                   <v-card-text style="text-align: right;">
-                    <span class="grey--text">{{ wedding_ike }}</span><br>
-                    {{ wedding_ike_text }}
+                    <span class="grey--text">{{ married_ike }}</span><br>
+                    {{ married_ike_text }}
                   </v-card-text>
                 </v-card>
               </template>
               <v-card flat>
                 <v-card-text>
-                  <span class="grey--text">{{ wedding_saya }}</span><br>
-                  {{ wedding_saya_text }}
+                  <span class="grey--text">{{ married_saya }}</span><br>
+                  {{ married_saya_text }}
+                </v-card-text>
+              </v-card>
+            </v-timeline-item>
+
+            <v-timeline-item>
+              <template v-slot:icon>
+                <v-avatar>
+                  <img src="../resources/timeline_ikesaya.jpg">
+                </v-avatar>
+              </template>
+              <template v-slot:opposite>
+                <v-card flat>
+                  <v-card-text>
+                    <span class="grey--text">{{ wedding_saya }}</span><br>
+                    {{ wedding_saya_text }}
+                  </v-card-text>
+                </v-card>
+              </template>
+              <v-card flat>
+                <v-card-text style="text-align: right;">
+                  <span class="grey--text">{{ wedding_ike }}</span><br>
+                  {{ wedding_ike_text }}
                 </v-card-text>
               </v-card>
             </v-timeline-item>
@@ -120,22 +148,28 @@ Vue.component('profile-history', {
   data: function () {
     return {
       history: '― History ―',
+      birth_ike: '1991.6.21',
+      birth_ike_text: '大阪府大東市で生まれる',
+      birth_saya: '1991.9.17',
+      birth_saya_text: '愛知県名古屋市で生まれる',
       pci_ike: '2016.3.7',
-      pci_ike_text: 'We first met',
+      pci_ike_text: '菱川紗也子と出会う',
+      pci_saya: '2016.3.7',
+      pci_saya_text: '池田将汰と出会う',
       dated_ike: '2016.6.25',
-      dated_ike_text: 'We fall in love',
-      decide_ike: '2019.2.12',
-      decide_ike_text: 'We decide to get married',
+      dated_ike_text: '付き合う',
+      dated_saya: '2016.6.25',
+      dated_saya_text: '付き合う',
       propose_ike: '2019.9.13',
-      propose_ike_text: 'He said again \'Will you marry me?\'',
-      propose_saya: '2019.9.13',
-      propose_saya_text: 'She said \'Yes\'',
+      propose_ike_text: 'プロポーズ',
       married_ike: '2019.11.22',
-      married_ike_text: 'We became the same name',
+      married_ike_text: '入籍！',
+      married_saya: '2019.11.22',
+      married_saya_text: '入籍！',
       wedding_ike: '2020.5.10',
-      wedding_ike_text: 'We said \'I do!!\'',
+      wedding_ike_text: '結婚式！',
       wedding_saya: '2020.5.10',
-      wedding_saya_text: 'We said \'I do!!\'',
+      wedding_saya_text: '結婚式！',
       style_prop_title: {
         fontSize: '1.5em',
         color: '#444444',
