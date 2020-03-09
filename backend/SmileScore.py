@@ -1,45 +1,142 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-from library import *
+import io
+import json
 import os
+import traceback
+from datetime import datetime
+
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
+import requests
+from flask import abort, request
+from google.cloud import firestore, storage
+from linebot import LineBotApi, WebhookHandler
+from linebot.exceptions import InvalidSignatureError
+from linebot.models import (ImageMessage, MessageEvent, TextMessage,
+                            TextSendMessage)
+from PIL import Image
 
-class SmileScore():
-    def __init__(self):
-        pass
-
-    def __del__(self):
-        pass
-
-    def detectFaces(self):
-        # 学習データ読み込み
-        face_cascade = cv2.CascadeClassifier('haarcascades/haarcascade_frontalface_default.xml')
-        smile_cascade = cv2.CascadeClassifier('haarcascades/haarcascade_smile.xml')
-
-        # 画像ファイル読み込み
-        img = cv2.imread("img/201908130004.png")
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-        # 顔認識
-        faces = face_cascade.detectMultiScale(gray, 1.25, 5)
-        for (x, y, w, h) in faces:
-            cv2.rectangle(img, (x,y), (x+w, y+h), (255,0,0), 2)
-            # cv2.circle(img,(int(x+w/2),int(y+h/2)),int(w/2),(0, 0, 255),2) # red
-
-            # 笑顔識別
-            roi_gray = gray[y:y+h, x:x+w] #Gray画像から，顔領域を切り出す．
-            smiles= smile_cascade.detectMultiScale(roi_gray,scaleFactor= 1.2, minNeighbors=10, minSize=(20, 20))#笑顔識別
-            if len(smiles) >0 :
-                for(sx,sy,sw,sh) in smiles:
-                    cv2.circle(img,(int(x+sx+sw/2),int(y+sy+sh/2)),int(sw/2),(0, 0, 255),2)#red
-
-        # 画面表示
-        plt.imshow( cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-        plt.show()
+line_bot_api = LineBotApi(os.environ['CHANNEL_ACCESS_TOKEN'])
+handler = WebhookHandler(os.environ['CHANNEL_SECRET'])
+bucket = storage.Client().get_bucket('smilescore')
+subscription_key = os.environ['SUBSCRIPTION_KEY']
+face_api_url = os.environ['FACE_API_URL']
 
 
-if __name__ == "__main__":
-    ss = SmileScore()
-    ss.detectFaces()
+def smilescore(request):
+    # get X-Line-Signature header value
+    signature = request.headers['X-Line-Signature']
+
+    # get request body as text
+    body = request.get_data(as_text=True)
+    print("Request body: " + body)
+
+    # handle webhook body
+    try:
+        handler.handle(body, signature)
+    except InvalidSignatureError:
+        abort(400)
+
+    return 'OK'
+
+
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    text = event.message.text
+
+    messages = [
+        TextSendMessage(text=text),
+        TextSendMessage(text='画像を送ってみてね!'),
+    ]
+
+    line_bot_api.reply_message(event.reply_token, messages)
+
+
+@handler.add(MessageEvent, message=ImageMessage)
+def handle_image(event):
+    try:
+        # 画像
+        message_id = event.message.id
+        message_content = line_bot_api.get_message_content(message_id)
+        img_bin = io.BytesIO(message_content.content)
+        img = Image.open(img_bin)
+
+        # 一旦ローカルに画像を保存
+        img_name = f"{datetime.now().strftime('%Y%m%d%H%M%S')}.jpg"
+        img_path = f"/tmp/{img_name}"
+        img.save(img_path, quality=100)
+
+        # 笑顔スコア実施
+        outimgpath, score = score_smile(img_path)
+
+        # cloud storageに保存
+        blob = bucket.blob(img_name)
+        blob.upload_from_filename(outimgpath)
+
+        # DB登録
+        db = firestore.Client()
+        batch = db.batch()
+        collection = db.collection('smilescore')
+        doc_ref = collection.document(img_name)
+        info = {
+            'score': score,
+        }
+        batch.set(doc_ref, info)
+        batch.commit()
+
+        messages = [
+            TextSendMessage(text='完了！'),
+        ]
+
+        line_bot_api.reply_message(event.reply_token, messages)
+
+    except Exception as e:
+        print(traceback.format_exc())
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='エラーが発生しました'))
+
+
+def score_smile(imgpath):
+    ''' 笑顔スコア実施 '''
+
+    # 笑顔スコア取得
+    headers = {
+        'Ocp-Apim-Subscription-Key': subscription_key,
+        'Content-Type': 'application/octet-stream'
+    }
+
+    params = {
+        'returnFaceId': 'true',
+        'returnFaceLandmarks': 'false',
+        'returnFaceAttributes': 'smile',
+    }
+
+    with open(imgpath, 'rb') as f:
+        img = f.read()
+    response = requests.post(face_api_url, params=params, headers=headers, data=img)
+    results = response.json()
+
+    # cv2で画像に顔枠とスコア書き込み
+    fontsize = 2
+    thickness = 2
+    cv2_img = cv2.imread(imgpath)
+    scorelist = []
+    for result in results:
+        x = result['faceRectangle']['left']
+        y = result['faceRectangle']['top']
+        w = result['faceRectangle']['width']
+        h = result['faceRectangle']['height']
+        score = result['faceAttributes']['smile']
+        scorelist.append(score)
+
+        color = (0, 0, 255 * score)
+        cv2.rectangle(cv2_img, (x, y), (x + w, y + h), color, 2)
+        # cv2.putText(cv2_img, str(score), (x, y-1), cv2.FONT_HERSHEY_PLAIN, fontsize, color, thickness)
+
+    # 一旦ローカルへ保存
+    insert_index = imgpath.rfind('.')
+    outimgpath = f"{imgpath[:insert_index]}_{imgpath[insert_index:]}"
+    cv2.imwrite(outimgpath, cv2_img)
+
+    # スコア平均算出
+    score_mean = round(np.mean(np.array(scorelist)), 2)
+
+    return outimgpath, score_mean
