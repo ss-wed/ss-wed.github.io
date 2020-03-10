@@ -2,6 +2,7 @@ var app = new Vue({
     el: '#app',
     data: {
         button_lable: 'LOADING...',
+        panel: [false],
         image: '',
         container_height: 0,
         container_padding: 0,
@@ -24,6 +25,9 @@ var app = new Vue({
         this.all_height = document.documentElement.clientHeight
         this.container_padding = document.getElementsByClassName('container')[0].style.padding
         this.head_height = document.getElementsByClassName('v-expansion-panel__header')[0].clientHeight
+
+        // 背景に泡アニメーション設定
+        bubbly();
     },
     computed: {
         style_img: function () {
@@ -32,5 +36,19 @@ var app = new Vue({
 
             return `width:auto; height:${height}; max-width:100%; max-height:100%;`
         },
+    },
+    watch: {
+        panel: function () {
+            // パネルを開ける度に背景に泡アニメーション設定
+            if (this.panel[0]) {
+                bubbly({
+                    colorStart: "#fff4e6",
+                    colorStop: "#ffe9e4",
+                    blur: 1,
+                    compose: "source-over",
+                    bubbleFunc: () => `hsla(${Math.random() * 50}, 100%, 50%, .3)`
+                });
+            }
+        }
     }
 })

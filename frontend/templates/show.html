@@ -17,6 +17,7 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@1.x/dist/vuetify.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bubbly-bg@1.0.0/dist/bubbly-bg.js" defer></script>
 
   <script src="../js/show.js" defer></script>
 
@@ -24,11 +25,11 @@
 </head>
 <body>
   <div id="app">
-    <v-app style="background-color: white">
+    <v-app style="background: transparent">
       <v-container style="padding: 1rem">
 
-        <v-expansion-panel>
-          <v-expansion-panel-content>
+        <v-expansion-panel v-model="panel" expand>
+          <v-expansion-panel-content style="background-color: rgba(255,255,255,0.5)">
             <template v-slot:header>
               <div>{{ button_lable }}</div>
             </template>
