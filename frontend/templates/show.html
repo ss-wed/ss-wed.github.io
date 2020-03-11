@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
   <link rel="stylesheet" type="text/css" href="../css/reset.css">
+  <link rel="stylesheet" type="text/css" href="../css/show.css">
 
   <link rel="shortcut icon" href="../resources/favicon.ico" type="image/vnd.microsoft.ico"/>
 
@@ -26,7 +27,12 @@
 <body>
   <div id="app">
     <v-app style="background: transparent">
-      <v-container style="padding: 1rem">
+
+      <transition name="bounce">
+        <v-img src="/frontend/resources/cracker.png" v-show="panel[0]" style="position:absolute; height:auto; width:100%; bottom:0; z-index:10"></v-img>
+      </transition>
+
+      <v-container style="padding:1rem; z-index:20">
 
         <v-expansion-panel v-model="panel" expand>
           <v-expansion-panel-content style="background-color: rgba(255,255,255,0.5)">
