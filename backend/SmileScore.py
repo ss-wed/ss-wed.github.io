@@ -43,12 +43,65 @@ def smilescore(request):
 def handle_message(event):
     text = event.message.text
 
+    try:
+        response_text = ''
+        if text == 'del':
+            delete_images()
+            delete_scores()
+            response_text = '削除完了'
+        else:
+            set_table_order(text)
+            response_text = f"写真送信順を{text}で設定しました"
+
+    except Exception as e:
+        print(traceback.format_exc())
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='エラーが発生しました'))
+
     messages = [
-        TextSendMessage(text=text),
-        TextSendMessage(text='画像を送ってみてね!'),
+        TextSendMessage(text=response_text),
     ]
 
     line_bot_api.reply_message(event.reply_token, messages)
+
+
+def set_table_order(text):
+    ''' 写真送信順設定 '''
+
+    # 大文字へ変換
+    _text = text.upper()
+
+    # 入力文字列をfirestoreに登録
+    db = firestore.Client()
+    batch = db.batch()
+    collection = db.collection('table_order')
+    doc_ref = collection.document('table_order')
+    order = {
+        'order': _text,
+    }
+    batch.set(doc_ref, order)
+    batch.commit()
+
+
+def delete_images():
+    ''' バケットを再生成することでバケット内の全アイテム削除 '''
+
+    # 削除
+    bucket.delete(force=True)
+
+    #生成
+    client = storage.Client()
+    new_bucket = storage.Bucket(client)
+    new_bucket.name = 'smilescore'
+    new_bucket.location = 'asia-northeast1'
+    storage.Client().create_bucket(new_bucket)
+
+
+def delete_scores():
+    ''' ドキュメント一覧を取得して1つずつ消していく '''
+
+    docs = firestore.Client().collection('smilescore').stream()
+    for doc in docs:
+        doc.reference.delete()
 
 
 @handler.add(MessageEvent, message=ImageMessage)
@@ -84,7 +137,7 @@ def handle_image(event):
         batch.commit()
 
         messages = [
-            TextSendMessage(text='完了！'),
+            TextSendMessage(text='スコアリング完了'),
         ]
 
         line_bot_api.reply_message(event.reply_token, messages)

@@ -4,6 +4,7 @@ var app = new Vue({
         button_lable: 'LOADING...',
         panel: [false],
         image: '',
+        tablename: '',
         container_height: 0,
         container_padding: 0,
         head_height: 0
@@ -13,9 +14,13 @@ var app = new Vue({
 
         axios
         .post('https://asia-east2-wedding-system-244912.cloudfunctions.net/get_smilescore_result')
-        .then(response => {
+          .then(response => {
+            // 画像データ処理
             vm.image = "data:image/jpg;base64," + response.data['image']
-            vm.button_lable = 'WINNER'
+            vm.button_lable = 'WINNER:'
+
+            // 画像名処理
+            vm.tablename = response.data['tablename']
         })
         .catch(error => {
             console.log(error)
@@ -45,8 +50,12 @@ var app = new Vue({
     },
     watch: {
         panel: function () {
-            // パネルオープンで紙吹雪
+            // パネルオープン
             if (this.panel[0]) {
+                // テーブル名設定
+                this.button_lable = 'WINNER: ' + this.tablename
+
+                // 紙吹雪
                 class Progress {
                     constructor(param = {}) {
                       this.timestamp        = null;

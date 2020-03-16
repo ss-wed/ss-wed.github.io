@@ -1,28 +1,42 @@
-from flask import jsonify
 import base64
-from google.cloud import storage
-from google.cloud import firestore
+import traceback
+
+from flask import jsonify
+from google.cloud import firestore, storage
 
 
 def test(request):
-    # DBからデータ取得
-    db = firestore.Client()
-    scores = {doc.id: doc.to_dict() for doc in db.collection('smilescore').stream()}
 
-    # 最高スコアの画像名取得
-    scores = {k: v['score'] for k, v in scores.items()}
-    imgname = max(scores.items(), key=lambda x:x[1])[0]
+    try:
+        # DBからスコアデータ取得
+        scores = {doc.id: doc.to_dict() for doc in firestore.Client().collection('smilescore').stream()}
 
-    # 画像返却準備
-    blob = storage.Client().get_bucket('smilescore').blob(imgname)
-    filepath = f"/tmp/{imgname}"
-    blob.download_to_filename(filepath)
-    file = open(filepath, 'rb').read()
-    enc_file = base64.b64encode(file).decode("utf-8")
+        # DBからテーブル順データ取得
+        order = {doc.id: doc.to_dict() for doc in firestore.Client().collection('table_order').stream()}
+        order = order['table_order']['order']
 
-    # 画像返却
-    res = jsonify({'image': enc_file })
-    res.headers.set('Access-Control-Allow-Origin', '*')
+        # 最高スコアの画像名取得
+        scores = {k: v['score'] for k, v in scores.items()}
+        imgname = max(scores.items(), key=lambda x: x[1])[0]
+
+        # 最高スコアの画像名をテーブル名に変換
+        imgnames = sorted(scores.keys())
+        target_index = imgnames.index(imgname)
+        tablename = order[target_index]
+
+        # 画像返却準備
+        blob = storage.Client().get_bucket('smilescore').blob(imgname)
+        filepath = f"/tmp/{imgname}"
+        blob.download_to_filename(filepath)
+        file = open(filepath, 'rb').read()
+        enc_file = base64.b64encode(file).decode("utf-8")
+
+        # 画像返却
+        res = jsonify({'image': enc_file, 'tablename': tablename })
+        res.headers.set('Access-Control-Allow-Origin', '*')
+
+    except Exception as e:
+        print(traceback.format_exc())
 
     return res
 
