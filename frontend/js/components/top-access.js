@@ -51,6 +51,15 @@ Vue.component('top-access', {
         お願い申し上げます
       </p>
     </v-layout>
+    <v-layout justify-center :style="style_info">
+      <a href="/frontend/templates/form.html" :style="style_message">ご出欠の登録はこちらから</a>
+    </v-layout>
+    <br>
+    <v-layout justify-center :style="style_info" style="text-align: center">
+      <span>なお　詳しい感染症対策やご案内につきましては<br>
+      <a href="/frontend/templates/announce.html">こちら</a>をご参照ください。</span>
+    </v-layout>
+
 
   </v-container>
   `,

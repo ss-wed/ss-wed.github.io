@@ -21,10 +21,11 @@ class SMTPAccess():
         SYSTEM_ADDRESS = 'sakura-nanovn-385@docomo.ne.jp'
 
         # MIMEメッセージ作成
+        message = "当日はぜひ楽しい時間をお過ごしください\n" + \
+                  "お会いできることを楽しみにしております\n\n" if data['attendance'] else "\n"
         main_text = data['name'] + " 様\n\n" + \
-                    "この度は、ご回答いただきありがとうございました。\n" + \
-                    "当日はぜひ楽しい時間をお過ごしください。\n" + \
-                    "お会いできることを楽しみにしております。\n\n" + \
+                    "この度は　ご回答いただきありがとうございました\n" + \
+                    message + \
                     "■登録情報\n" + \
                     "お名前　：" + data['name'] + " \n" + \
                     "アドレス：" + data['mail_address'] + " \n" + \
@@ -54,7 +55,8 @@ class SMTPAccess():
                     "■登録情報\n" + \
                     "お名前　：" + data['name'] + " \n" + \
                     "アドレス：" + data['mail_address'] + " \n" + \
-                    "出欠　　：" + ("出席" if data['attendance'] else "欠席") + " \n\n"
+                    "出欠　　：" + ("出席" if data['attendance'] else "欠席") + " \n" + \
+                    "" + data['message'] + " \n\n"
         conf_msg = MIMEText(conf_text)
         conf_msg.replace_header("Content-Transfer-Encoding", "base64")
         conf_msg["Subject"] = "出欠登録を受け付けました"
