@@ -204,7 +204,7 @@ Vue.component('form-inputer', {
   data: function () {
     return {
       valid: true,
-      topmessage: ['誠に勝手ながら', '４月１日までにご登録くださいますよう', 'お願いいたします。'],
+      topmessage: ['誠に勝手ながら', '１０月１日までにご登録くださいますよう', 'お願いいたします。'],
       attend: null,
       label_attend: '出席',
       label_absent: '欠席',
