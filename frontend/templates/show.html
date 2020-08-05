@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+  <link rel="stylesheet" type="text/css" href="../css/reset.css">
+  <link rel="stylesheet" type="text/css" href="../css/show.css">
+
+  <link rel="shortcut icon" href="../resources/favicon.ico" type="image/vnd.microsoft.ico"/>
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@1.x/dist/vuetify.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Cinzel&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP:600&display=swap" rel="stylesheet">
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script> -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@1.x/dist/vuetify.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bubbly-bg@1.0.0/dist/bubbly-bg.js" defer></script>
+
+  <script src="../js/show.js" defer></script>
+
+  <title>show</title>
+</head>
+<body>
+  <div id="app">
+    <v-app style="background: transparent">
+
+      <transition name="bounce">
+        <v-img src="/frontend/resources/cracker.png" v-show="panel[0]" style="position:absolute; height:auto; width:100%; bottom:0; z-index:10"></v-img>
+      </transition>
+
+      <v-container style="padding:1rem; z-index:20">
+
+        <v-expansion-panel v-model="panel" expand>
+          <v-expansion-panel-content style="background-color: rgba(255,255,255,0.5)">
+            <template v-slot:header>
+              <div>{{ button_lable }}</div>
+            </template>
+            <div style="text-align: center;">
+              <img :src="image" :style="style_img">
+            </div>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+      </v-container>
+    </v-app>
+  </div>
+</body>
+</html>
