@@ -29,7 +29,7 @@ Vue.component('count-down', {
   data: function () {
     return {
       data: {
-        the_date: new Date('2020/5/10'),
+        the_date: new Date('2020/11/15'),
         diff_day: null,
         diff_hour: null,
         diff_minute: null,
