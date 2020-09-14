@@ -59,28 +59,22 @@ Vue.component('form-inputer', {
         </v-layout>
 
         <v-layout>
-          <v-flex xs12>
-            <v-checkbox v-model="checkbox" label="招待状の住所と同じ"></v-checkbox>
-          </v-flex>
-        </v-layout>
-
-        <v-layout>
           <v-flex xs6>
             <v-text-field v-model="postcode" counter maxlength="7"  label="郵便番号" placeholder="1234567"
-              :rules="[rules.postcode]" @change="on_input_postcode" type="number" :disabled=checkbox>
+              :rules="[rules.postcode]" @change="on_input_postcode" type="number" :rules="[rules.required]">
             </v-text-field>
           </v-flex>
         </v-layout>
 
         <v-layout>
           <v-flex xs12>
-            <v-text-field label="住所" v-model="address" :disabled=checkbox></v-text-field>
+            <v-text-field label="住所" v-model="address" :rules="[rules.required]"></v-text-field>
           </v-flex>
         </v-layout>
 
         <v-layout>
           <v-flex xs6>
-            <v-text-field label="建物名" v-model="building" :disabled=checkbox></v-text-field>
+            <v-text-field label="建物名" v-model="building" :rules="[rules.required]"></v-text-field>
           </v-flex>
         </v-layout>
 
@@ -204,7 +198,7 @@ Vue.component('form-inputer', {
   data: function () {
     return {
       valid: true,
-      topmessage: ['誠に勝手ながら', '１０月１日までにご登録くださいますよう', 'お願いいたします。'],
+      topmessage: ['誠に勝手ながら', '１０月１４日までにご登録くださいますよう', 'お願いいたします。'],
       attend: null,
       label_attend: '出席',
       label_absent: '欠席',
