@@ -74,7 +74,7 @@ Vue.component('form-inputer', {
 
         <v-layout>
           <v-flex xs6>
-            <v-text-field label="建物名" v-model="building" :rules="[rules.required]"></v-text-field>
+            <v-text-field label="建物名" v-model="building"></v-text-field>
           </v-flex>
         </v-layout>
 
