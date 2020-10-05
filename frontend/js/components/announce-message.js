@@ -19,7 +19,8 @@ Vue.component('announce-message', {
           </v-flex>
         </v-layout>
         <span :style="style_message">式場での対策については別途ご案内させて頂いております<br>
-        お手数ですが<a href="https://glastonia.net/wordpress/wp-content/uploads/2020/07/Press-Release-20200716.pdf" :style="style_message">こちら</a>をダウンロードしてご覧ください</span>
+        お手数ですが<a href="https://glastonia.net/wordpress/wp-content/uploads/2020/07/Press-Release-20200716.pdf" :style="style_message">こちら</a>をダウンロードしてご覧ください</span><br>
+        <span :style="style_message">(※<a href="https://www.youtube.com/watch?v=9QqizmCLsJQ" :style="style_message" target=_blank”>こちら</a>から実際の様子を動画でもご覧いただけます)</span>
         <br>
         <br>
         <v-layout justify-center v-for="(msg, i) in text2" :key="i">
@@ -49,13 +50,13 @@ Vue.component('announce-message', {
         '２. 会場内の定期的な消毒・換気',
         '３. 会場スタッフのマスク着用',
         '４. 会場入り口での参加者全員への検温',
+        '５. ソーシャルディスタンスを保った座席の配置や演出',
         '',
         'など行ってまいります',
       ],
       text2: [
-        'ゲストの皆様におかれましても　マスク着用での参加も可能でございますが',
-        '皆様の安心安全が第一と考えておりますので',
-        '無理のないご出欠の判断を　お聞かせいただけますと幸いです',
+        '私たちは皆様の安心安全が第一と考えておりますので',
+        '無理のない範囲でご出席いただけると幸いです',
         '',
         '今後の感染状況次第では やむを得ず',
         '規模縮小・延期・中止させていただく可能性もございますが',

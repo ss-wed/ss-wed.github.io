@@ -132,9 +132,9 @@ Vue.component('profile-history', {
       propose_saya_text: 'She said \'Yes\'',
       married_ike: '2019.11.22',
       married_ike_text: 'We became the same name',
-      wedding_ike: '2020.5.10',
+      wedding_ike: '2020.11.15',
       wedding_ike_text: 'We said \'I do!!\'',
-      wedding_saya: '2020.5.10',
+      wedding_saya: '2020.11.15',
       wedding_saya_text: 'We said \'I do!!\'',
       style_prop_title: {
         fontSize: '1.5em',
