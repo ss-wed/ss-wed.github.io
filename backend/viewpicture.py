@@ -44,7 +44,7 @@ def get_picture(request):
     file = open(filepath, 'rb').read()
     enc_file = base64.b64encode(file).decode("utf-8")
 
-    res = jsonify({'image': enc_file})
+    res = jsonify({'iamge_name': img_name, 'image': enc_file})
     res.headers.set('Access-Control-Allow-Origin', '*')
 
     return res
