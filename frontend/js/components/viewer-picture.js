@@ -31,7 +31,7 @@ Vue.component('viewer-picture', {
 
       <transition name="fade">
         <div :style="style_overlay" v-if="showing" @click="on_img_unselect">
-          <img alt="aaa" :src="showing_img" :style="style_image" ref="img" id="img"></img>
+          <img :src="showing_img" :style="style_image" ref="img" id="img"></img>
           <v-btn icon @click="on_img_unselect" :style="style_xbtn">
             <v-icon :style="style_icon">close</v-icon>
           </v-btn>
