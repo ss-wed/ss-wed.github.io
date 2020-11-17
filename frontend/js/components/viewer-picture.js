@@ -22,7 +22,7 @@ Vue.component('viewer-picture', {
 
           <v-flex xs4 md2 v-for="i in iamge_length" :key="i" style="height: 100px;">
             <a>
-              <img v-lazy="images[i-1]" style="width:100%; height:100%; object-fit:cover; padding:1px;" @click="on_img_select"></img>
+              <img v-lazy="images[i-1]" :name="images_name[i-1]" style="width:100%; height:100%; object-fit:cover; padding:1px;" @click="on_img_select"></img>
             </a>
           </v-flex>
 
@@ -32,6 +32,9 @@ Vue.component('viewer-picture', {
       <transition name="fade">
         <div :style="style_overlay" v-if="showing" @click="on_img_unselect">
           <img :src="showing_img" :style="style_image" ref="img" id="img"></img>
+          <v-btn icon @click="on_img_download" :style="style_dbtn">
+            <v-icon :style="style_icon">download</v-icon>
+          </v-btn>
           <v-btn icon @click="on_img_unselect" :style="style_xbtn">
             <v-icon :style="style_icon">close</v-icon>
           </v-btn>
@@ -47,6 +50,7 @@ Vue.component('viewer-picture', {
       iamge_length: 0,
       showing: false,
       showing_img: '',
+      showing_img_name: '',
       current_y: '',
       style_overlay: {
         position: 'fixed',
@@ -66,7 +70,13 @@ Vue.component('viewer-picture', {
         zIndex: 110,
         color: 'white',
         top: (window.innerHeight - 50) + "px",
-        left: (window.innerWidth - 50) + "px",
+        left: (window.innerWidth - 130) + "px",
+      },
+      style_dbtn: {
+        zIndex: 110,
+        color: 'white',
+        top: (window.innerHeight - 50) + "px",
+        left: (window.innerWidth - 120) + "px",
       },
       style_icon: {
         background: 'lightgray',
@@ -84,6 +94,7 @@ Vue.component('viewer-picture', {
       .then(response => {
         vm.iamge_length = response.data['result_list'].length
         vm.images = Array(vm.iamge_length)
+        vm.images_name = Array(vm.iamge_length)
         vm.images.fill('')
 
         response.data['result_list'].reverse().forEach((imgname, i) => {
@@ -91,7 +102,9 @@ Vue.component('viewer-picture', {
             .post('https://asia-east2-wedding-system-244912.cloudfunctions.net/get_picture', {img_name: imgname})
             .then(response => {
               vm.images[i] = "data:image/jpg;base64," + response.data['image']
+              vm.images_name[i] = response.data['image_name']
               vm.images.splice()
+              vm.images_name.splice()
 
               this.loading = false
             })
@@ -116,12 +129,21 @@ Vue.component('viewer-picture', {
       document.body.style.top = (-1 * this.current_y) + 'px'
 
       this.showing_img = e.target.currentSrc
+      this.showing_img_name = e.target.name
       this.showing = true
     },
     on_img_unselect: function (e) {
       this.showing = false
       document.body.style.position = ''
       document.documentElement.scrollTop = this.current_y
+    },
+    on_img_download: function (e) {
+      let dlLink = document.createElement("a");
+      dlLink.href = this.showing_img;
+      dlLink.download = this.showing_img_name;
+      document.body.insertAdjacentElement("beforeEnd", dlLink);
+      dlLink.click();
+      dlLink.remove();
     }
   }
 })
